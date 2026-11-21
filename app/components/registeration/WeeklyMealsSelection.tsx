@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import type {
@@ -17,25 +18,21 @@ const MEALS: {
   key: MealType;
   label: string;
   time: string;
-  emoji: string;
 }[] = [
   {
     key: "breakfast",
     label: "Breakfast",
     time: "Morning",
-    emoji: "🌅",
   },
   {
     key: "lunch",
     label: "Lunch",
     time: "Afternoon",
-    emoji: "☀️",
   },
   {
     key: "dinner",
     label: "Dinner",
     time: "Evening",
-    emoji: "🌙",
   },
 ];
 
@@ -80,32 +77,74 @@ export default function WeeklyMealSelection({
     onChange(updated);
   };
 
+  const selectedDays = value.filter(
+    (day) =>
+      day.breakfast || day.lunch || day.dinner
+  ).length;
+
   return (
     <section className="space-y-6">
 
       {/* Heading */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900">
+        <h2 className="text-xl font-bold tracking-tight text-gray-900">
           Weekly Meal Selection
         </h2>
 
         <p className="mt-1 text-sm text-gray-500">
-          Select the meals you would like to have
-          throughout the week.
+          Choose your preferred meals for each day of the week.
         </p>
       </div>
 
-      {/* Meal instructions */}
-      <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
-        <p className="text-sm text-blue-800">
-          Select your preferred meals from Monday
-          to Sunday. You can choose multiple meals
-          each day.
-        </p>
+      {/* Instructions */}
+      <div className="flex gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-700">
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M12 22a10 10 0 110-20 10 10 0 010 20z"
+            />
+          </svg>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-blue-900">
+            Meal Selection Instructions
+          </p>
+          <p className="mt-1 text-xs leading-relaxed text-blue-700">
+            Tick the checkbox beside each meal you wish
+            to select. You may choose multiple meals per day.
+          </p>
+        </div>
+      </div>
+
+      {/* Weekly Overview */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4">
+        <div>
+          <p className="text-sm font-semibold text-gray-900">
+            Weekly Overview
+          </p>
+          <p className="mt-1 text-xs text-gray-500">
+            {selectedDays} of {value.length} days have meals selected
+          </p>
+        </div>
+
+        <div className="rounded-lg bg-blue-50 px-3 py-2">
+          <span className="text-sm font-bold text-blue-700">
+            {mealCount} meals selected
+          </span>
+        </div>
       </div>
 
       {/* Days */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {value.map((day, index) => {
           const selectedCount = [
             day.breakfast,
@@ -118,65 +157,96 @@ export default function WeeklyMealSelection({
           return (
             <div
               key={day.day}
-              className="overflow-hidden rounded-2xl border border-gray-200 bg-white"
+              className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:border-gray-300"
             >
+              {/* Day Header */}
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 bg-gray-50/70 px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold ${
+                      selectedCount > 0
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-gray-200 text-gray-600"
+                    }`}
+                  >
+                    {index + 1}
+                  </div>
 
-              {/* Day heading */}
-              <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-                <div>
-                  <h3 className="font-semibold text-gray-900">
-                    {day.day}
-                  </h3>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-900">
+                      {day.day}
+                    </h3>
 
-                  <p className="text-xs text-gray-500">
-                    {selectedCount} of 3 meals selected
-                  </p>
+                    <p className="text-xs text-gray-500">
+                      {selectedCount}/3 meals selected
+                    </p>
+                  </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => toggleAllMeals(index)}
-                  className="rounded-lg px-3 py-2 text-xs font-medium text-blue-600 hover:bg-blue-50"
-                >
-                  {allSelected ? "Deselect all" : "Select all"}
-                </button>
+                {/* Select All Checkbox */}
+                <label className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-semibold text-gray-600 transition hover:bg-blue-50 hover:text-blue-700">
+                  <input
+                    type="checkbox"
+                    checked={allSelected}
+                    ref={(el) => {
+                      if (el) {
+                        el.indeterminate =
+                          selectedCount > 0 &&
+                          selectedCount < 3;
+                      }
+                    }}
+                    onChange={() => toggleAllMeals(index)}
+                    className="h-4 w-4 cursor-pointer rounded border-gray-300 accent-blue-600"
+                  />
+                  Select all
+                </label>
               </div>
 
-              {/* Meal options */}
-              <div className="grid grid-cols-3 gap-2 p-3">
+              {/* Checkbox Meal Options */}
+              <div className="grid grid-cols-1 gap-2 p-3 sm:grid-cols-3">
                 {MEALS.map((meal) => {
                   const selected = day[meal.key];
 
                   return (
-                    <button
+                    <label
                       key={meal.key}
-                      type="button"
-                      aria-pressed={selected}
-                      onClick={() =>
-                        toggleMeal(index, meal.key)
-                      }
-                      className={`flex flex-col items-center justify-center gap-2 rounded-xl border p-3 transition ${
+                      className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all ${
                         selected
-                          ? "border-blue-500 bg-blue-50 text-blue-700"
-                          : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
+                          ? "border-blue-400 bg-blue-50"
+                          : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
                       }`}
                     >
-                      <span className="text-xl">
-                        {meal.emoji}
-                      </span>
+                      <input
+                        type="checkbox"
+                        checked={selected}
+                        onChange={() =>
+                          toggleMeal(index, meal.key)
+                        }
+                        className="h-5 w-5 shrink-0 cursor-pointer rounded border-gray-300 accent-blue-600"
+                      />
 
-                      <span className="text-xs font-semibold">
-                        {meal.label}
-                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p
+                          className={`text-sm font-semibold ${
+                            selected
+                              ? "text-blue-800"
+                              : "text-gray-800"
+                          }`}
+                        >
+                          {meal.label}
+                        </p>
 
-                      <span className="text-[10px] opacity-70">
-                        {meal.time}
-                      </span>
+                        <p className="mt-0.5 text-xs text-gray-500">
+                          {meal.time}
+                        </p>
+                      </div>
 
-                      <span className="text-xs">
-                        {selected ? "✓ Selected" : "Select"}
-                      </span>
-                    </button>
+                      {selected && (
+                        <span className="text-xs font-semibold text-blue-600">
+                          Selected
+                        </span>
+                      )}
+                    </label>
                   );
                 })}
               </div>
@@ -186,8 +256,8 @@ export default function WeeklyMealSelection({
       </div>
 
       {/* Summary */}
-      <div className="rounded-2xl bg-gray-900 p-5 text-white">
-        <h3 className="text-sm font-medium text-gray-300">
+      <div className="rounded-2xl bg-gray-900 p-5 text-white shadow-sm">
+        <h3 className="text-sm font-semibold text-gray-300">
           Weekly Meal Summary
         </h3>
 
@@ -196,7 +266,8 @@ export default function WeeklyMealSelection({
             <p className="text-xs text-gray-400">
               Total Meals
             </p>
-            <p className="mt-1 text-2xl font-bold">
+
+            <p className="mt-1 text-3xl font-bold">
               {mealCount}
             </p>
           </div>
@@ -205,7 +276,8 @@ export default function WeeklyMealSelection({
             <p className="text-xs text-gray-400">
               Total Amount
             </p>
-            <p className="mt-1 text-2xl font-bold">
+
+            <p className="mt-1 text-3xl font-bold">
               RM {totalAmount.toFixed(2)}
             </p>
           </div>
@@ -218,9 +290,10 @@ export default function WeeklyMealSelection({
         </div>
       </div>
 
+      {/* Validation */}
       {mealCount === 0 && (
-        <p className="text-sm text-red-500">
-          Please select at least one meal.
+        <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+          Please select at least one meal before proceeding.
         </p>
       )}
 

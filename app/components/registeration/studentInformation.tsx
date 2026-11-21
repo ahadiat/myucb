@@ -118,6 +118,36 @@ export default function StudentInformation({
           />
         </div>
 
+        
+
+       <div className="md:col-span-2">
+  <label
+    className={labelClass}
+    htmlFor="student-password"
+  >
+    Kata Laluan
+  </label>
+
+  <input
+    id="student-password"
+    type="password"
+    autoComplete="new-password"
+    placeholder="Masukkan kata laluan"
+    value={value.password ?? ""}
+    onChange={(e) =>
+      updateField("password", e.target.value)
+    }
+    minLength={8}
+    required
+    className={inputClass}
+  />
+
+  <p className="text-xs text-gray-500 mt-1">
+    Minimum 8 aksara. Diperlukan untuk mengedit
+    maklumat pendaftaran pada masa akan datang.
+  </p>
+</div>
+
        
 
       </div>

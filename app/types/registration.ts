@@ -5,6 +5,7 @@ export interface StudentInformationData {
   matric: string;
   phone: string;
   email: string;
+  password: string;
 }
 
 export const initialStudentInformation: StudentInformationData = {
@@ -12,6 +13,7 @@ export const initialStudentInformation: StudentInformationData = {
   matric: "",
   phone: "",
   email: "",
+  password: "",
 };
 
 export interface RegistrationData {
