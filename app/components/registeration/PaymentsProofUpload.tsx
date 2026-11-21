@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AlertCircle, FileCheck2, Trash2, UploadCloud, X } from "lucide-react";
 
 interface PaymentProofUploadProps {
@@ -26,6 +26,8 @@ export default function PaymentProofUpload({
 }: PaymentProofUploadProps) {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+const pdfInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!value || !value.type.startsWith("image/")) {
@@ -78,37 +80,92 @@ export default function PaymentProofUpload({
           Bukti Pembayaran
         </h2>
         <p className="mt-0.5 text-xs sm:text-sm text-gray-500">
-          Muat naik resit pindahan bank atau pengesahan pembayaran anda.
+          Muat naik resit transaction bank atau pengesahan pembayaran anda.
         </p>
       </div>
 
-      <label
-        className={`flex w-full min-w-0 flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-6 sm:px-6 sm:py-8 text-center transition ${
-          disabled
-            ? "cursor-not-allowed border-gray-200 bg-gray-100 opacity-60"
-            : "cursor-pointer border-gray-300 bg-gray-50/40 hover:border-blue-500 hover:bg-blue-50/70"
-        }`}
+     <div className="space-y-3">
+
+  {/* Hidden Image Input */}
+  <input
+    ref={imageInputRef}
+    type="file"
+    accept="image/*"
+    className="hidden"
+    disabled={disabled}
+    onChange={handleFileChange}
+  />
+
+  {/* Hidden PDF Input */}
+  <input
+    ref={pdfInputRef}
+    type="file"
+    accept=".pdf,application/pdf"
+    className="hidden"
+    disabled={disabled}
+    onChange={handleFileChange}
+  />
+
+  {!value && (
+    <div className="grid grid-cols-2 gap-3">
+
+      {/* Gallery Button */}
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={() => imageInputRef.current?.click()}
+        className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-blue-300 bg-blue-50/50 p-5 text-center transition hover:border-blue-500 hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        <UploadCloud className="mb-2 h-7 w-7 sm:h-9 sm:w-9 text-blue-600 shrink-0" />
+        <UploadCloud className="h-8 w-8 text-blue-600" />
 
-        <span className="max-w-full wrap-break-word text-sm sm:text-base font-medium text-gray-800">
-          {value
-            ? "Pilih fail lain"
-            : "Klik untuk muat naik bukti pembayaran"}
+        <span className="text-sm font-semibold text-gray-800">
+          Pilih Gambar
         </span>
 
-        <span className="mt-1 max-w-full wrap-break-word text-[11px] sm:text-xs text-gray-500">
-          PDF, JPG, JPEG, PNG atau WEBP · Maksimum {maxSizeMB}MB
+        <span className="text-xs text-gray-500">
+          Gallery / Photos
+        </span>
+      </button>
+
+      {/* PDF Button */}
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={() => pdfInputRef.current?.click()}
+        className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-5 text-center transition hover:border-blue-500 hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <FileCheck2 className="h-8 w-8 text-gray-600" />
+
+        <span className="text-sm font-semibold text-gray-800">
+          Pilih PDF
         </span>
 
-        <input
-          type="file"
-          accept="image/*,.pdf,application/pdf"
-          className="hidden"
-          disabled={disabled}
-          onChange={handleFileChange}
-        />
-      </label>
+        <span className="text-xs text-gray-500">
+          Files / Documents
+        </span>
+      </button>
+
+    </div>
+  )}
+
+  {value && (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={() => {
+        if (value.type === "application/pdf") {
+          pdfInputRef.current?.click();
+        } else {
+          imageInputRef.current?.click();
+        }
+      }}
+      className="w-full rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-50"
+    >
+      Pilih fail lain
+    </button>
+  )}
+
+</div>
 
       {errorMsg && (
         <div

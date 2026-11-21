@@ -33,10 +33,10 @@ export default function StudentInformation({
       {/* Section heading */}
       <div>
         <h2 className="text-xl font-semibold text-gray-900">
-          Student Information
+          Maklumat Pelajar
         </h2>
         <p className="mt-1 text-sm text-gray-500">
-          Please provide your information for meal registration.
+          Sila isi maklumat diri anda dengan tepat. Maklumat ini akan memudahkan kami untuk menghubungi anda.
         </p>
       </div>
 
@@ -46,7 +46,7 @@ export default function StudentInformation({
         {/* Name */}
         <div className="md:col-span-2">
           <label className={labelClass} htmlFor="student-name">
-            Full Name <span className="text-red-500">*</span>
+            Nama Penuh <span className="text-red-500">*</span>
           </label>
           <input
             id="student-name"
@@ -65,7 +65,7 @@ export default function StudentInformation({
         {/* Matric Number */}
         <div>
           <label className={labelClass} htmlFor="matric-number">
-            Matrik Number <span className="text-red-500">*</span>
+            No Matrik <span className="text-red-500">*</span>
           </label>
           <input
             id="matric-number"
@@ -83,7 +83,7 @@ export default function StudentInformation({
         {/* Phone */}
         <div>
           <label className={labelClass} htmlFor="student-phone">
-            Phone Number <span className="text-red-500">*</span>
+            No Telefon <span className="text-red-500">*</span>
           </label>
           <input
             id="student-phone"
@@ -102,7 +102,7 @@ export default function StudentInformation({
         {/* Email */}
         <div className="md:col-span-2">
           <label className={labelClass} htmlFor="student-email">
-            Email Address <span className="text-red-500">*</span>
+            Alamat Email <span className="text-red-500">*</span>
           </label>
           <input
             id="student-email"
