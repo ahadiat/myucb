@@ -88,11 +88,11 @@ export default function WeeklyMealSelection({
       {/* Heading */}
       <div>
         <h2 className="text-xl font-bold tracking-tight text-gray-900">
-          Weekly Meal Selection
+          Order Dapo Minda
         </h2>
 
         <p className="mt-1 text-sm text-gray-500">
-          Choose your preferred meals for each day of the week.
+          Pilih hidangan yang anda ingin pesan untuk minggu ini.
         </p>
       </div>
 
@@ -116,11 +116,10 @@ export default function WeeklyMealSelection({
 
         <div>
           <p className="text-sm font-semibold text-blue-900">
-            Meal Selection Instructions
+            Instructions
           </p>
           <p className="mt-1 text-xs leading-relaxed text-blue-700">
-            Tick the checkbox beside each meal you wish
-            to select. You may choose multiple meals per day.
+            Tandakan hidangan yang anda ingin pesan untuk setiap hari. Anda boleh memilih sehingga 3 hidangan setiap hari. Sila pastikan anda memilih sekurang-kurangnya satu hidangan sebelum meneruskan ke pembayaran.
           </p>
         </div>
       </div>
@@ -129,16 +128,16 @@ export default function WeeklyMealSelection({
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4">
         <div>
           <p className="text-sm font-semibold text-gray-900">
-            Weekly Overview
+            Pilihan Mingguan Anda
           </p>
           <p className="mt-1 text-xs text-gray-500">
-            {selectedDays} of {value.length} days have meals selected
+            {selectedDays} of {value.length} hari dipilih
           </p>
         </div>
 
         <div className="rounded-lg bg-blue-50 px-3 py-2">
           <span className="text-sm font-bold text-blue-700">
-            {mealCount} meals selected
+            {mealCount} Hidangan Dipilih
           </span>
         </div>
       </div>

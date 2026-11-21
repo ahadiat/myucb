@@ -1,7 +1,7 @@
 export default function WhatsAppButton() {
   return (
     <a
-      href="https://wa.me/601121982971?text=Assalamualaikum%2C%20saya%20ingin%20bertanya%20mengenai%20pendaftaran%20Dapo%20Minda."
+      href="https://wa.me/601113165503?text=Assalamualaikum%2C%20saya%20ingin%20bertanya%20mengenai%20pendaftaran%20Dapo%20Minda."
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Hubungi Admin melalui WhatsApp"
